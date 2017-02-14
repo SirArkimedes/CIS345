@@ -1,0 +1,9 @@
+# hw1prb2 -- Jane in marketing...
+# Andrew Robinson
+# Jane wants some marketing information with out social security numbers.
+
+mkdir /tmp/hw1prb2
+writepath=/tmp/hw1prb2
+
+sed -e 's/[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]/XXX-XX-XXXX/g' customers_and_contacts > $writepath/hw1prb2solution
+cat $writepath/hw1prb2solution

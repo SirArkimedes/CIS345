@@ -1,0 +1,22 @@
+# hw1prb3 -- Modify the customers_and_contacts.txt...
+# Andrew Robinson
+# Change birth date to non-numbers.
+
+mkdir /tmp/hw1prb3
+writepath=/tmp/hw1prb3
+
+cut -f9 customers_and_contacts > $writepath/birthdays
+cut -f1-8 customers_and_contacts > $writepath/datawithoutbirthdays
+
+touch $writepath/reformattedbirthdays
+while read p; do
+	month=`cut -d'-' -f1 <<< $p`
+	day=`cut -d'-' -f2 <<< $p`
+	year=`cut -d'-' -f3 <<< $p`
+	date --date="$year-$month-$day 00:00:00" "+%B %e, %Y" >> $writepath/reformattedbirthdays
+done <$writepath/birthdays
+
+paste $writepath/datawithoutbirthdays $writepath/reformattedbirthdays > $writepath/hw1prb3solution
+cat $writepath/hw1prb3solution
+
+rm $writepath/birthdays; rm $writepath/datawithoutbirthdays; rm $writepath/reformattedbirthdays

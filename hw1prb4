@@ -1,0 +1,23 @@
+# hw1prb4 -- Jane in marketing...
+# Andrew Robinson
+# Report people ages between 18 and 49.
+
+mkdir /tmp/hw1prb4
+writepath=/tmp/hw1prb4
+
+cp customers_and_contacts $writepath/hw1prb4solution
+
+while ((i++)); read p; do
+	year=`cut -d'-' -f6 <<< $p`
+	currentYear=`date +"%Y"`
+	difference=`expr $currentYear - $year`
+	if (( difference < 18 ))
+	then
+		sed -i "${i}d" $writepath/hw1prb4solution
+	elif (( difference > 49 ))
+	then
+		sed -i "${i}d" $writepath/hw1prb4solution
+	fi
+done <customers_and_contacts
+
+cat $writepath/hw1prb4solution

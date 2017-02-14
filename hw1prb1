@@ -1,0 +1,20 @@
+# hw1prb1 -- Janet in Accounts Receivable...
+# Andrew Robinson
+# Reformat customers_and_contacts to satisfy Janet's needs.
+
+mkdir /tmp/hw1prb1
+writepath=/tmp/hw1prb1
+
+cut -f2 customers_and_contacts > $writepath/lastnames
+cut -f1 customers_and_contacts > $writepath/firstnames
+cut -f8 customers_and_contacts > $writepath/socials
+cut -f9 customers_and_contacts > $writepath/birthdates
+cut -f4 customers_and_contacts > $writepath/city
+cut -f5 customers_and_contacts > $writepath/state
+cut -f3 customers_and_contacts > $writepath/streetaddresses
+cut -f7 customers_and_contacts > $writepath/phonenumbers
+
+paste -d',' $writepath/lastnames $writepath/firstnames $writepath/socials $writepath/birthdates $writepath/city $writepath/state $writepath/streetaddresses $writepath/phonenumbers > $writepath/hw1prb1solution.csv
+cat $writepath/hw1prb1solution.csv
+
+rm $writepath/lastnames; rm $writepath/firstnames; rm $writepath/socials; rm $writepath/birthdates; rm $writepath/city; rm $writepath/state; rm $writepath/streetaddresses; rm $writepath/phonenumbers

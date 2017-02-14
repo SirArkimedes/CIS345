@@ -1,0 +1,25 @@
+# hw1prb5 -- Jane in marketing needs a mailing list...
+# Andrew Robinson
+# Only names and address + sorted.
+
+mkdir /tmp/hw1prb5
+writepath=/tmp/hw1prb5
+
+cut -f2 customers_and_contacts > $writepath/lastnames
+cut -f1,3-9 customers_and_contacts > $writepath/restofcontacts
+
+paste $writepath/lastnames $writepath/restofcontacts > $writepath/lastnamefirst
+sort $writepath/lastnamefirst > $writepath/sortedlastnames
+
+cut -f2,1 $writepath/sortedlastnames > $writepath/firstlastname
+sed -i 's/\t/, /' $writepath/firstlastname
+
+cut -f3 $writepath/sortedlastnames > $writepath/streetaddress
+cut -f4,5,6 $writepath/sortedlastnames > $writepath/citystatezip
+sed -i 's/\t/, /' $writepath/citystatezip
+sed -i 's/\t/ /' $writepath/citystatezip
+
+paste -d'\n' $writepath/firstlastname $writepath/streetaddress $writepath/citystatezip /dev/null > $writepath/hw1prb5solution
+cat $writepath/hw1prb5solution
+
+rm $writepath/lastnames; rm $writepath/restofcontacts; rm $writepath/lastnamefirst; rm $writepath/sortedlastnames; rm $writepath/firstlastname; rm $writepath/streetaddress; rm $writepath/citystatezip

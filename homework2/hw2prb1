@@ -5,8 +5,11 @@
 # Andrew Robinson
 # Display greeting and system characteristics.
 
-mkdir /tmp/hw2prb1
 writepath=/tmp/hw2prb1
+if [ ! -d "$writepath" ]
+then
+  mkdir $writepath
+fi
 
 hour=`date | tr -s ' ' | cut -d' ' -f4 | cut -d':' -f1`
 
@@ -17,7 +20,6 @@ firstLetter=`cut -c1 <<< $firstName`
 firstLetter=`tr [a-z] [A-Z] <<< $firstLetter`
 restOfName=`cut -c2- <<< $firstName`
 
-echo
 if (( hour < 13 ))
 then
 	echo "Good morning, $firstLetter$restOfName!"

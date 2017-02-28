@@ -1,0 +1,12 @@
+#!/bin/bash
+#           - Do this go get proper highlighting for the editor I use.
+
+# hw2prb2 -- Write an interactive script to add...
+# Andrew Robinson
+# Add people to my very own phone book... interactively!
+
+writepath=/tmp/hw2prb2
+if [ ! -d "$writepath" ]
+then
+  mkdir $writepath
+fi

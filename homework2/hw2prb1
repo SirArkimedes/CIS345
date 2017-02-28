@@ -1,0 +1,52 @@
+#!/bin/bash
+#           - Do this go get proper highlighting for the editor I use.
+
+# hw2prb1 -- Write a bash script called greeting...
+# Andrew Robinson
+# Display greeting and system characteristics.
+
+mkdir /tmp/hw2prb1
+writepath=/tmp/hw2prb1
+
+hour=`date | tr -s ' ' | cut -d' ' -f4 | cut -d':' -f1`
+
+username=`whoami`
+firstName=`finger $username | cut -d':' -f3 | head -1 | cut -d' ' -f2`
+
+firstLetter=`cut -c1 <<< $firstName`
+firstLetter=`tr [a-z] [A-Z] <<< $firstLetter`
+restOfName=`cut -c2- <<< $firstName`
+
+echo
+if (( hour < 13 ))
+then
+	echo "Good morning, ""$firstLetter""$restOfName"!
+elif (( hour < 18 ))
+then
+	echo "Good afternoon, ""$firstLetter""$restOfName"!
+else
+	echo "Good evening, ""$firstLetter""$restOfName"!
+fi
+echo
+
+lastLoginTime=`lastlog -u $username | tr -s ' ' | cut -d' ' -f4- | tail -1`
+echo "You last logged in: $lastLoginTime"
+echo
+
+who | cut -f1 -d' ' | uniq > $writepath/loggedInUserNames
+count=`cat $writepath/loggedInUserNames | wc -l`
+if (( $count == 1 ))
+then
+	echo "1 currently logged in user:"
+else
+	echo "$count currently logged in users:"
+fi
+
+while read p
+do
+	firstName=`finger $p | cut -d':' -f3 | head -1 | cut -d' ' -f2-`
+	lastLoginTime=`lastlog -u $p | tr -s ' ' | cut -d' ' -f4- | tail -1`
+	echo -e "$p\t$firstName\t$lastLoginTime"
+done < $writepath/loggedInUserNames
+
+rm -r $writepath

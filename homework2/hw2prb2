@@ -10,3 +10,28 @@ if [ ! -d "$writepath" ]
 then
   mkdir $writepath
 fi
+
+echo "Enter the first name of the person you would like to add:"
+read firstName
+
+echo "Enter the last name:"
+read lastName
+
+echo "Enter the address:"
+read address
+
+echo "Enter the phone number in format (000)000-0000:"
+read phonenumber
+
+if grep -qse "([0-9][0-9][0-9])[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]" <<< "$phonenumber"
+then
+  if grep -qsx "$firstName.$lastName.$address.$phonenumber" $writepath/phonebook
+  then
+    echo "Oh no! The person is already in the phone book!"
+  else
+    echo -e "$firstName\t$lastName\t$address\t$phonenumber" >> $writepath/phonebook
+    echo "Success! The person has been entered into the phone book!"
+  fi
+else
+  echo "Phone number is not in the correct format!"
+fi

@@ -1,0 +1,37 @@
+#!/bin/bash
+#           - Do this go get proper highlighting for the editor I use.
+
+# hw2prb2 -- Write an interactive script to remove...
+# Andrew Robinson
+# Remove people to my very own phone book... interactively!
+
+writepath=/tmp/hw2prb2
+if [ ! -e "$writepath/phonebook" ]
+then
+	echo "Phone book does not exist!"
+else
+	echo "Enter the first name of the person you would like to remove:"
+	read firstName
+
+	echo "Enter the last name:"
+	read lastName
+
+	echo "Enter the address:"
+	read address
+
+	echo "Enter the phone number in format (000)000-0000:"
+	read phonenumber
+
+	if grep -qse "([0-9][0-9][0-9])[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]" <<< "$phonenumber"
+	then
+	  if grep -qsx "$firstName.$lastName.$address.$phonenumber" $writepath/phonebook
+	  then
+			sed -i "/$firstName.$lastName.$address.$phonenumber/d" $writepath/phonebook
+	    echo "Success! The person has been removed from the phone book!"
+	  else
+	    echo "Oh no! The person does not exist in the phone book!"
+	  fi
+	else
+	  echo "Phone number is not in the correct format!"
+	fi
+fi

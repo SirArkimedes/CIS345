@@ -35,3 +35,18 @@ else
 	  echo "Phone number is not in the correct format!"
 	fi
 fi
+
+: ' Output:
+
+andrew@linux:~/Developer/CIS345/homework2> ./hw2prb3
+Enter the first name of the person you would like to remove:
+Andrew
+Enter the last name:
+Robinson
+Enter the address:
+12 College Way
+Enter the phone number in format (000)000-0000:
+(123)123-1234
+Success! The person has been removed from the phone book!
+
+'

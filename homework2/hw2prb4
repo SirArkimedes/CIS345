@@ -51,3 +51,16 @@ then
 else
 	echo "Must pass a number between 1 and 3999!"
 fi
+
+: ' Output:
+
+andrew@linux:~/Developer/CIS345/homework2> ./hw2prb4 3999
+3999 in Roman Numerals: MMMCMXCIX
+andrew@linux:~/Developer/CIS345/homework2> ./hw2prb4 123
+123 in Roman Numerals: CXXIII
+andrew@linux:~/Developer/CIS345/homework2> ./hw2prb4 1
+1 in Roman Numerals: I
+andrew@linux:~/Developer/CIS345/homework2> ./hw2prb4 3
+3 in Roman Numerals: III
+
+'

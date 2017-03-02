@@ -52,3 +52,23 @@ do
 done < $writepath/loggedInUserNames
 
 rm -r $writepath
+
+: ' Output:
+
+andrew@linux:~/Developer/CIS345/homework2> ./hw2prb1
+Good evening, Andrew!
+
+You last logged in: Wed Mar 1 19:10:06 -0600 2017
+
+1 currently logged in user:
+andrew	andrew Robinson	Wed Mar 1 19:10:06 -0600 2017
+andrew@linux:~/Developer/CIS345/homework2> ./hw2prb1
+Good evening, Andrew!
+
+You last logged in: Wed Mar 1 19:10:06 -0600 2017
+
+2 currently logged in users:
+andrew	andrew Robinson	Wed Mar 1 19:10:06 -0600 2017
+testing	testing jim	Mar 1 22:29:34 -0600 2017
+
+'

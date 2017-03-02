@@ -1,0 +1,53 @@
+#!/bin/bash
+#           - Do this go get proper highlighting for the editor I use.
+
+# hw2prb4 -- Write a bash script that takes an...
+# Andrew Robinson
+# Calculate Roman Numerals for an integer passed as a command argument.
+
+if [ -n "$1" ] && (( "$1" > 0 )) && (( "$1" < 4000 ))
+then
+	writepath=/tmp/hw2prb4
+	if [ ! -d "$writepath" ]
+	then
+	  mkdir $writepath
+	fi
+
+	while (( i++ )); (( i <= 13 ))
+	do
+		case "$i"
+			in
+			1) echo "1000,M" >> $writepath/values ;;
+			2) echo "900,CM" >> $writepath/values ;;
+			3) echo "500,D" >> $writepath/values ;;
+			4) echo "400,CD" >> $writepath/values ;;
+			5) echo "100,C" >> $writepath/values ;;
+			6) echo "90,XC" >> $writepath/values ;;
+			7) echo "50,L" >> $writepath/values ;;
+			8) echo "40,XL" >> $writepath/values ;;
+			9) echo "10,X" >> $writepath/values ;;
+			10) echo "9,IX" >> $writepath/values ;;
+			11) echo "5,V" >> $writepath/values ;;
+			12) echo "4,IV" >> $writepath/values ;;
+			13) echo "1,I" >> $writepath/values ;;
+		esac
+	done
+
+	integer=$1
+	while read x
+	do
+		number=`cut -d',' -f1 <<< $x`
+		numeral=`cut -d',' -f2 <<< $x`
+		while (( number <= integer ))
+		do
+			actualNumeral+=$numeral
+			(( integer -= number ))
+		done
+	done < $writepath/values
+
+	echo "$1 in Roman Numerals: $actualNumeral"
+
+	rm $writepath/values
+else
+	echo "Must pass a number between 1 and 3999!"
+fi

@@ -1,6 +1,6 @@
 #!/bin/bash
 #           - Do this go get proper highlighting for the editor I use.
 
-# hw3prb2 -- Write an interactive script called adduser...
+# hw3prb1 -- Write an interactive script called adduser...
 # Andrew Robinson
 # Add a user to the system, with a script.

@@ -20,6 +20,9 @@ do
 	if [ -z "$username" ]
 	then
 		echo "Must enter a non-empty username!"
+	elif [ $username = "root" ]
+	then
+		echo "Cannot delete root user!"
 	elif id "$username" > /dev/null 2>&1
 	then
 		break
@@ -36,5 +39,28 @@ then
 	echo "Logged $username off, proceeding..."
 fi
 
+# Get all of the user's groups.
+IFS=' ' read -a groups <<< `id -G -n $username`
+
+for group in ${groups[@]}
+do
+	# Find writeable directories for that group
+	find / -type d -not \( -path /.snapshots -prune \) \( -group $group -perm -u=w \) > userswriteablepaths 2> /dev/null
+
+	while read path
+	do
+		# See if any of those directories are writeable by particular user
+		find $path \( -user test -perm -u=w \) > usersowneddirectories 2> /dev/null
+		while read file
+		do
+			rm -r $file 2> /dev/null
+		done < usersowneddirectories
+	done < userswriteablepaths
+
+	rm usersowneddirectories 2> /dev/null; rm userswriteablepaths 2> /dev/null
+done
+
 # Delete the user and the user's home directory.
-userdel -r "$username"
+userdel -r "$username" 2> /dev/null
+
+echo; echo "User deleted!"

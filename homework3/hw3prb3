@@ -1,6 +1,6 @@
 #!/bin/bash
 #           - Do this go get proper highlighting for the editor I use.
 
-# hw3prb3 -- Write an interactive script called adduser...
+# hw3prb3 -- Write a shell script called watchdog...
 # Andrew Robinson
-# Add a user to the system, with a script.
+# Watch for usernames that log on, that are listed in .friends file.

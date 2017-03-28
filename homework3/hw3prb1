@@ -4,3 +4,110 @@
 # hw3prb1 -- Write an interactive script called adduser...
 # Andrew Robinson
 # Add a user to the system, with a script.
+
+if [ "$(id -u)" != 0 ]
+then
+	echo "Must be ran as root."
+	exit 1
+fi
+
+defaultGroupId=users
+defaultHome=/home
+defaultShell=/bin/bash
+
+echo "Welcome to the interactive user creator!"
+
+# Request username
+while true
+do
+	echo;	echo "Please enter the username that you would like to create:"
+	read username
+
+	if [ -z "$username" ]
+	then
+		echo "Must enter a non-empty username!"
+	elif id "$username" > /dev/null 2>&1
+	then
+		echo "User already exists!"
+	else
+		break
+	fi
+done
+
+# Request Group ID
+while true
+do
+	echo; echo "Enter the group/s ID for $username (Format: users,trusted,squid or users) (Default is $defaultGroupId):"
+	read id
+
+	if [ -z "$id" ]
+	then
+		ids=$defaultGroupId
+		break
+	else
+		IFS=',' read -a ids <<< $id
+
+		shouldBreak=true
+		for e in ${ids[@]}
+		do
+			if [ ! $(getent group $e) ]
+			then
+				echo "Group does not exist!"
+				continue 2
+				shouldBreak=false
+			elif [ "$e" = "root" ]
+			then
+				echo "Group ID cannot be zero!"
+				continue 2
+				shouldBreak=false
+			fi
+		done
+
+		if [ $shouldBreak = true ]
+		then
+			break
+		fi
+	fi
+done
+
+# Request home location
+while true
+do
+	echo; echo "Enter the path for $username's home (Default is $defaultHome):"
+	read home
+
+	if [ -z "$home" ]
+	then
+		home=$defaultHome
+		break
+	elif [ ! `grep "/" <<< $home` ]
+	then
+		echo "$home is not a path!"
+	else
+		break
+	fi
+done
+
+# Request shell path
+while true
+do
+	echo; echo "Enter the path for $username's shell (Default is $defaultShell):"
+	read shell
+
+	if [ -z "$shell" ]
+	then
+		shell=$defaultShell
+		break
+	elif [ ! `grep "/bin/" <<< $shell` ]
+	then
+		echo "$shell is not a shell path!"
+	else
+		break
+	fi
+done
+
+# Create the user
+ids=$( IFS=$','; echo "${ids[*]}" )
+useradd -G "$ids" -m -d "$home/$username" -s "$shell" "$username" > /dev/null 2> /dev/null
+
+echo; echo "User created!"

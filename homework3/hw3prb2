@@ -1,6 +1,40 @@
 #!/bin/bash
 #           - Do this go get proper highlighting for the editor I use.
 
-# hw3prb2 -- Write an interactive script called adduser...
+# hw3prb2 -- Removing a user can be more difficult than creating...
 # Andrew Robinson
-# Add a user to the system, with a script.
+# Remove a user from the system, with a script.
+
+if [ "$(id -u)" != 0 ]
+then
+	echo "Must be ran as root."
+	exit 1
+fi
+
+# Request username
+while true
+do
+	echo;	echo "Please enter the username that you would like to remove:"
+	read username
+
+	if [ -z "$username" ]
+	then
+		echo "Must enter a non-empty username!"
+	elif id "$username" > /dev/null 2>&1
+	then
+		break
+	else
+		echo "User doesn't exist!"
+	fi
+done
+
+# Check if logged on
+if who | grep -w "^$username"
+then
+	echo "Logging $username off..."
+	pkill -KILL -u "$username"
+	echo "Logged $username off, proceeding..."
+fi
+
+# Delete the user and the user's home directory.
+userdel -r "$username"

@@ -111,3 +111,6 @@ ids=$( IFS=$','; echo "${ids[*]}" )
 useradd -G "$ids" -m -d "$home/$username" -s "$shell" "$username" > /dev/null 2> /dev/null
 
 echo; echo "User created!"
+
+chfn "$username"
+passwd "$username"

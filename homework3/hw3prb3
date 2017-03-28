@@ -4,3 +4,54 @@
 # hw3prb3 -- Write a shell script called watchdog...
 # Andrew Robinson
 # Watch for usernames that log on, that are listed in .friends file.
+
+# Check if .friends file actually exists
+who=`whoami`
+if [ ! -e "/home/$who/.friends" ]
+then
+	echo ".friends does not exist!"
+	exit 1
+fi
+
+if [ ! -e "/home/$who/.onlinefriends" ]
+then
+	touch "/home/$who/.onlinefriends"
+fi
+
+# Start endless loop
+while true
+do
+
+	# Is there a new friend online?
+	while read line
+	do
+		if who | cut -d' ' -f1 | grep -w "^$line" > /dev/null
+		then
+
+			# Is that user already said to be online?
+			if ! `grep -w "^$line" "/home/$who/.onlinefriends" > /dev/null`
+			then
+				echo "!!!!!!!!! $line is logged on!"
+				echo "$line" >> "/home/$who/.onlinefriends"
+			fi
+
+		fi
+	done < "/home/$who/.friends"
+
+	while read line
+	do
+
+		# Check for user that has gone offline
+		if ! who | cut -d' ' -f1 | grep -w "^$line" > /dev/null
+		then
+			echo ">>>>>>>>> $line has logged off!"
+			sed -i "/$line/d" "/home/$who/.onlinefriends"
+		fi
+
+	done < "/home/$who/.onlinefriends"
+
+	sleep=30
+	echo; echo "Waiting to check online/offline friends in $sleep seconds..."
+	sleep $sleep
+
+done

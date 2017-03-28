@@ -1,0 +1,30 @@
+linux:/home/andrew/Developer/CIS345/homework3 # ./hw3prb1
+Welcome to the interactive user creator!
+
+Please enter the username that you would like to create:
+colby
+
+Enter the group/s ID for colby (Format: users,trusted,squid or users) (Default is users):
+users,squid
+
+Enter the path for colby's home (Default is /home):
+
+
+Enter the path for colby's shell (Default is /bin/bash):
+
+
+User created!
+Changing the user information for colby
+Enter the new value, or press ENTER for the default
+	Full Name []: Colby Turner
+	Room Number []:
+	Work Phone []:
+	Home Phone []:
+	Other []:
+New password:
+BAD PASSWORD: it is based on a dictionary word
+BAD PASSWORD: is too simple
+Retype new password:
+Sorry, passwords do not match.
+passwd: Failed preliminary check by password service
+passwd: password unchanged

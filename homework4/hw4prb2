@@ -1,0 +1,13 @@
+#!/bin/bash
+#           - Do this go get proper highlighting for the editor I use.
+
+# hw4prb2 -- Disk space always seems to be in short...
+# Andrew Robinson
+# Grab disk space of all users on system.
+
+for directory in /home/*/
+do
+	user=`cut -d'/' -f3 <<< "$directory"`
+
+	echo "$user's disk space usage: `du -sh $directory 2> /dev/null`"
+done

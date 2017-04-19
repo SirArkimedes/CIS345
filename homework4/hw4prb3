@@ -1,0 +1,24 @@
+#!/bin/bash
+#           - Do this go get proper highlighting for the editor I use.
+
+# hw4prb3 -- Sometimes users will leave themselves logged in...
+# Andrew Robinson
+# Produce a list of users logged in for a long time.
+
+lastWho=""
+who | while read -r line
+do
+	user=`echo $line | cut -d' ' -f1`
+	dateLine=`echo $line | cut -d' ' -f3-4`
+
+	difference=$(( $(date "+%s") - $(date -d "$dateLine" "+%s") ))
+
+	# Comparing seconds ---> 86400 seconds = 1 day
+	if (( difference >= 86400 )) && [ "$user" != "$lastWho" ]
+	then
+		echo "$user has been logged in for more than a day!"
+	fi
+
+	lastWho=$user
+
+done

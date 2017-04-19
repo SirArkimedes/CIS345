@@ -1,0 +1,73 @@
+#!/bin/bash
+#           - Do this go get proper highlighting for the editor I use.
+
+# hw4prb1 -- Programs with setuid permission can be extremely...
+# Andrew Robinson
+# Search for unfamiliar setuid files.
+
+if [ "$(id -u)" != 0 ]
+then
+	echo "Must be ran as root."
+	exit 1
+fi
+
+if [ "$1" = true ]
+then
+	echo "Creating default checksum file..."
+
+	# Search for all setuid
+	find / -user root -perm -4000 -exec ls -ldb {} \; > /tmp/allSetuid 2> /dev/null
+	tr -s " " < /tmp/allSetuid > /tmp/allSetuidSpaced
+	cut -d' ' -f9 /tmp/allSetuidSpaced > /tmp/allSetuidPaths
+
+	# Use these files as the "defaults"
+	touch checkSumDefaults
+	cp /dev/null checkSumDefaults
+	while read path
+	do
+		sha256sum -b $path >> checkSumDefaults
+	done < /tmp/allSetuidPaths
+
+	echo; echo "Created and saved to checkSumDefaults!"
+
+	rm /tmp/allSetuid; rm /tmp/allSetuidSpaced; rm /tmp/allSetuidPaths
+
+else
+
+	echo "Searching for any altered or new files..."
+
+	if [ ! -e "checkSumDefaults" ]
+	then
+		echo "checkSumDefaults does not exist!"
+		exit 1
+	fi
+
+	# Check for more files than what's in the checkSumDefaults file
+	find / -user root -perm -4000 -exec ls -ldb {} \; > /tmp/allSetuid 2> /dev/null
+	totalNumberOfFilesOnSystem=`wc -l /tmp/allSetuid | cut -d' ' -f1`
+	if [ "$totalNumberOfFilesOnSystem" != `wc -l checkSumDefaults | cut -d' ' -f1` ]
+	then
+		echo; echo "Incosistent amounts! Displaying files that differ from the checkSumDefaults file:"
+
+		tr -s " " < /tmp/allSetuid > /tmp/allSetuidSpaced
+		cut -d' ' -f9 /tmp/allSetuidSpaced > /tmp/allSetuidPaths
+
+		touch /tmp/newestSums
+		cp /dev/null /tmp/newestSums
+		while read path
+		do
+			sha256sum -b $path >> /tmp/newestSums
+		done < /tmp/allSetuidPaths
+
+		# Tell the user what the file is!
+		diff /tmp/newestSums checkSumDefaults
+
+		rm /tmp/allSetuid; rm /tmp/allSetuidSpaced; rm /tmp/allSetuidPaths; rm /tmp/newestSums
+
+		exit 1
+	fi
+
+	# Show the user with less, if any files have been modified.
+	sha256sum -c checkSumDefaults | less
+
+fi

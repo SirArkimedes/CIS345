@@ -1,0 +1,46 @@
+<html><head><title>Welcome to hw5prb1</title></head>
+<body>
+<h1>Look up a customer by the following fields:</h1>
+
+<br><br>
+<h3>First name and last name:</h3>
+<form method=post action="/cgi-bin/firstnamelastname.cgi">
+First name: <input size=20 name=firstname>
+<br>
+Last Name: <input size=20 name=lastname>
+<br><br>
+<input type=submit value="Submit">
+</form>
+
+<br><br>
+<h3>Just last name:</h3>
+<form method=post action="/cgi-bin/firstnamelastname.cgi">
+First name: <input size=20 name=firstname>
+<br>
+Last Name: <input size=20 name=lastname>
+<br><br>
+<input type=submit value="Submit">
+</form>
+
+<br><br>
+<h3>First name and last name:</h3>
+<form method=post action="/cgi-bin/firstnamelastname.cgi">
+First name: <input size=20 name=firstname>
+<br>
+Last Name: <input size=20 name=lastname>
+<br><br>
+<input type=submit value="Submit">
+</form>
+
+<br><br>
+<h3>First name and last name:</h3>
+<form method=post action="/cgi-bin/firstnamelastname.cgi">
+First name: <input size=20 name=firstname>
+<br>
+Last Name: <input size=20 name=lastname>
+<br><br>
+<input type=submit value="Submit">
+</form>
+
+</body>
+</html>

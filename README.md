@@ -10,9 +10,9 @@ Grades for assignments included in this repository are (Does not include final g
 
 | Assignment    | Grade Received       |
 | ------------- |:--------------------:|
-| 1             | 20/20                |
-| 2             | 30/30                |
-| 3             | 20/20                |
-| 4             | 40/40                |
+| 1             | 25/25                |
+| 2             | 25/25                |
+| 3             | 40/40                |
+| 4             | 30/30                |
 | 5             | 30/30                |
-| Total         | 140/140              |
+| Total         | 150/150              |
